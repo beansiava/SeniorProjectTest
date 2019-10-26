@@ -1,0 +1,20 @@
+There are plenty of dependencies in this project.
+General Dependencies:
+-pip package manager
+
+NLP Dependencies
+- nltk (installed with pip)
+- textblob (installed with pip)
+
+Text Parser Dependencies
+- beautifulsoup4 (installed with pip)
+- lxml (installed with pip) text parser required for beautiful soup
+- #optional html5lib (alternative to lxml, reads text like the web browser does)
+
+Web Scraper
+- requests #allows direct requests to the web
+
+Other Installations (might not be required)
+- scipy
+- numpy
+-
