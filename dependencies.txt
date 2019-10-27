@@ -14,6 +14,12 @@ Text Parser Dependencies
 Web Scraper
 - requests #allows direct requests to the web
 
+Browser History
+- import os //required to kill chrome & access the database
+- import browserhistory as bh //library that accesses databases of all browsers
+
+
+
 Other Installations (might not be required)
 - scipy
 - numpy

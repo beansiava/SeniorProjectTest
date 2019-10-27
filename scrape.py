@@ -13,6 +13,30 @@ data = ''
 numLines = 0
 polarity = 0
 subjectivity = 0
+
+""" GET BROWSER HISTORY
+comment out block when done testing
+----------------------------------------"""
+import browserhistory as bh
+import os
+try:
+    os.system("taskkill /im chrome.exe /f")
+    for i in range(5):
+        print("--------------------------------------------------")
+    print("Program begins now")
+    print("--------------------------------------------------")
+except:
+    print("chrome was already closed")
+dict_obj = bh.get_browserhistory()
+dict_obj.keys()
+page_link = dict_obj['chrome'][0][0]
+print(page_link)
+page_response = requests.get(page_link, timeout=5)
+page_content = BeautifulSoup(page_response.content, "html.parser")
+
+
+
+
 #TODO (optional for now): find out how to stop when there are no longer <p> tags (right now, just runs through and breaks if Index Error
 for i in range(0, 40):
     try:
@@ -23,11 +47,11 @@ for i in range(0, 40):
         numLines += 1
         polarity += opinion.sentiment[0]
         subjectivity += opinion.sentiment[1]
-        print(opinion.sentiment)
+        # print(opinion.sentiment)
     except IndexError:
         break;
 print(numLines, polarity, subjectivity, "\naverage polarity " + str(polarity / numLines), "\naverage subjectivity " + str(subjectivity / numLines))
-print(page_content.find_all("p"))
+# print(page_content.find_all("p"))
 
 
 
