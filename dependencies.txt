@@ -19,6 +19,18 @@ Browser History
 - import browserhistory as bh //library that accesses databases of all browsers
 
 
+GUI (using Kivy, which is dependent on many things):
+All of these must be the msot recent update
+- wheel
+- setuptools
+- virtualenv
+- pip installer
+*to use, here are useful links:
+- starting kivy virtual environment:  https://kivy.org/doc/stable/installation/installation-windows.html
+- setting up kivy (for each platform): https://github.com/kivy/kivy/wiki/Setting-Up-Kivy-with-various-popular-IDE's#setting-up-kivy-with-pycharm-on-windows
+***This must be added to site.py to download some dependencies
+    def getsitepackages():
+        return ['C:\\Users\\maludwig\\AppData\\Local\\Programs\\Python\\Python37', 'C:\\Users\\maludwig\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages']
 
 Other Installations (might not be required)
 - scipy

@@ -50,6 +50,8 @@ for i in range(0, 40):
         # print(opinion.sentiment)
     except IndexError:
         break;
+    if(numLines ==0):
+        numLines = 1
 print(numLines, polarity, subjectivity, "\naverage polarity " + str(polarity / numLines), "\naverage subjectivity " + str(subjectivity / numLines))
 # print(page_content.find_all("p"))
 

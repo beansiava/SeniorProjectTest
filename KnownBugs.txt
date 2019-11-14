@@ -1,0 +1,10 @@
+*
+
+*some files don't just have their <p> tags accessed.
+Not sure how this affects the overall semantic analysis
+
+*the browserhistory library cannot access the chrome history database unless chrome is closed.
+
+*Some web pages have no <p> tags.  When this happens I get an error.  Going to have to throw this and continue.
+
+
