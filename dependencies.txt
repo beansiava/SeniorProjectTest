@@ -31,6 +31,13 @@ All of these must be the msot recent update
 ***This must be added to site.py to download some dependencies
     def getsitepackages():
         return ['C:\\Users\\maludwig\\AppData\\Local\\Programs\\Python\\Python37', 'C:\\Users\\maludwig\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages']
+-GUI TESTFILES
+    python kivy_venv\share\kivy-examples\demo\showcase\main.py
+*LAUNCHING THE APP
+    - GUI MUST BE RUN WITH THE FOLLOWING COMMAND FORMAT WITH THE VIRTUAL ENVIRONMENT ACTIVE
+        kivy_venv\Scripts\activate
+        python ../dir/filename.py
+
 
 Other Installations (might not be required)
 - scipy

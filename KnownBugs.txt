@@ -8,3 +8,13 @@ Not sure how this affects the overall semantic analysis
 *Some web pages have no <p> tags.  When this happens I get an error.  Going to have to throw this and continue.
 
 
+*Error -
+python -m pip uninstall kivy
+python -m pip uninstall kivy.deps.sdl2
+python -m pip uninstall kivy.deps.glew
+python -m pip uninstall kivy.deps.gstreamer
+python -m pip uninstall image
+
+python -m pip install --upgrade pip wheel setuptools
+python -m pip install docutils pygments pypiwin32 kivy.deps.sdl2 kivy.deps.glew --extra-index-url https://kivy.org/downloads/packages/simple/
+python -m pip install kivy
