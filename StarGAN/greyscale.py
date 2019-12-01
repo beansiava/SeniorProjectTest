@@ -22,18 +22,31 @@ def calculate(source, step):
     post = source[24:]
     n.save(pre + str(step+1) + post, "JPEG")
 
-# Order: Angry, Contemptuous, Disgusted, Fearful, Happy, Neutral, Sad, Surprised
-
 
 def split(source):
-    im = Image.open("stargan_celeba_128/results/1-images.jpg")
-    crop_rectangle = (0, 0, 128, 128)
+    im = Image.open(source)
+    # crop_rectangle = (left, top, right, bottom)
+
+    # Happy
+    crop_rectangle = (640, 0, 768, 128)
     cropped_im = im.crop(crop_rectangle)
-    for x in range():
+    cropped_im.save(source[:23] + "happy" + source[23] + ".jpg", "JPEG")
+
+    # Neutral
+    crop_rectangle = (768, 0, 896, 128)
+    cropped_im = im.crop(crop_rectangle)
+    cropped_im.save(source[:23] + "neutral" + source[23] + ".jpg", "JPEG")
+
+    # Sad
+    crop_rectangle = (896, 0, 1024, 128)
+    cropped_im = im.crop(crop_rectangle)
+    cropped_im.save(source[:23] + "sad" + source[23] + ".jpg", "JPEG")
+    return
 
 
-source = 'stargan_custom/results/1-images.jpg'
-for x in range(4):
-    calculate(source, x+1)
-for x in range(5):
-    split(source[:23] + str(x+1) + source[24:])
+if __name__ == '__main__':
+    source = 'stargan_custom/results/1-images.jpg'
+    for x in range(4):
+        calculate(source, x+1)
+    for x in range(5):
+        split(source[:23] + str(x+1) + source[24:])
