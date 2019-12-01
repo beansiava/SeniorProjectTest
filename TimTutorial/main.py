@@ -6,18 +6,32 @@ class ScreenManagement(ScreenManager):
     pass
 
 
-class FirstPage(Screen):
-
-    def calculate(self, point_from, point_to):
-        print("point_from={0}, point_to={1}".format(point_from, point_to))
-
-
-class SecondPage(Screen):
+class StartPage(Screen):
     pass
 
+class InputPage(Screen):
+
+    def analyzeline(self, semantic):
+        #TODO: call external function for analysis of first line input
+        #TODO: call external function for analysis of second line input
+        #TODO: combine the two and output into GUI
+        return "hello"
+
+
+
+
+class HistoryPage(Screen):
+
+    def evaluatehistory():
+        pass
+
+    pass
+
+class FeedbackPage(Screen):
+    pass
 
 class TestApp(App):
-    title = "Login Screen"
+    title = "Welcome to Hue"
 
     def build(self):
         return ScreenManagement()
