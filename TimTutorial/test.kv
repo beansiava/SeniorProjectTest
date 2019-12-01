@@ -1,0 +1,147 @@
+#:kivy 1.10.0
+
+<ScreenManagement>:
+    StartPage:
+        id: page0
+    InputPage:
+        id: page1
+    HistoryPage:
+        id: page2
+    FeedbackPage:
+        id: page3
+
+<StartPage>:
+    name: "start_page"
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        BoxLayout:
+            Image:
+                source:"huelogo.png"
+                size_hint_x: 0.4
+                allow_stretch: True
+
+            Label:
+                size_hint_x: 0.4
+                text: "description of hue goes here. (need to format better)"
+
+        BoxLayout:
+            size_hint_y: 0.2
+            Button:
+                text: "Check my history"
+                on_press: root.manager.current = "history_page"
+            Button:
+                text: "Give Some input"
+                on_press: root.manager.current = "input_page"
+            Button:
+                text: "Provide Feedback"
+                on_press: root.manager.current = "feedback_page"
+
+
+
+
+<InputPage>:
+    name: "input_page"
+
+    #Page Header
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            size_hint_y: 0.05
+            Label:
+                text: "Have an email or message you want to send? find out how it will make theme feel here."
+
+        BoxLayout:
+            size_hint_y: 0.4
+            Image:
+                id: inputdisplayimage
+                #TODO: THIS IS JUST A PLACEHOLDER - Needs to be filled in with calculated data from Button
+                source:"huelogo.png"
+                size_hint_x: 0.4
+                allow_stretch: True
+
+            Label:
+                text: "Output Placeholder"
+
+
+        BoxLayout:
+            bcolor: 1,1,1,1
+            size_hint_y: 0.15
+            Label:
+                #bcolor: 1,1,1,1
+                text: "What would you like to label?"
+            TextInput:
+                #IT WORKS!!!! SEE HOW THE 'id' can influence the ability to edit values later
+                id: semantic
+                text: ''
+
+        # Calculate and show page #2
+        BoxLayout:
+            size_hint_y: 0.1
+            Button:
+                size_hint_x: 0.2
+                text: "go back to start"
+                on_press:root.manager.current = "start_page"
+
+            Button:
+                id: testfeedbacktogui
+                size_hint_x: 0.6
+                text: "evaluate text"
+                on_press: testfeedbacktogui.text = root.analyzeline(semantic.text)
+                    #TODO: right now, having issues displaying output to GUI
+                    #text: root.analyzeline(semantic1.text, semantic2.text)
+                    #root.calculate(semantic.text)
+                    #root.manager.current = "start_page"
+
+
+<HistoryPage>:
+    name: "history_page"
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        #Page Header
+        BoxLayout:
+            size_hint_y: 0.05
+            Label:
+                text: "Want to learn more about the content you've been consuming? you can do that here."
+
+        #
+        BoxLayout:
+            size_hint_y: 0.6
+            Image:
+                id: historydisplayimage
+                #TODO: THIS IS JUST A PLACEHOLDER - Needs to be filled in with calculated data from Button
+                source:"huelogo.png"
+                size_hint_x: 0.4
+                allow_stretch: True
+
+            Label:
+                text: "insert description of feature"
+
+
+        # TODO: Calculate values from history
+        BoxLayout:
+            size_hint_y: 0.2
+            Button:
+                size_hint_x: 0.2
+                text: "back to start Page"
+                on_press: root.manager.current = "start_page"
+
+            Button:
+                size_hint_x: 0.6
+                text: "Evaluate Browser History"
+                #on_press: root.evaluatehistory(param,param2)
+
+<FeedbackPage>:
+    name: "feedback_page"
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        # Show page #1
+        BoxLayout:
+            Button:
+                text: "Back to start page"
+                on_press: root.manager.current = "start_page"
