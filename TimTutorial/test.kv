@@ -24,8 +24,7 @@
 
             Label:
                 size_hint_x: 0.4
-                text: "description of hue goes here. (need to format better)"
-
+                text: "Hue is a \"Content Nutrition Label.\" \n By using Hue, we hope to help \n"
         BoxLayout:
             size_hint_y: 0.2
             Button:
@@ -56,12 +55,15 @@
             size_hint_y: 0.4
             Image:
                 id: inputdisplayimage
-                #TODO: THIS IS JUST A PLACEHOLDER - Needs to be filled in with calculated data from Button
-                source:"huelogo.png"
+                pos_hint_x: 0.1
+                #NOTE:::: THE EMPTYBOX IS REPLACED when Analyzeline is called.
+                source:"emptybox.png"
                 size_hint_x: 0.4
                 allow_stretch: True
+                #keep_ratio=True
 
             Label:
+                id: output_text
                 text: "Output Placeholder"
 
 
@@ -88,7 +90,8 @@
                 id: testfeedbacktogui
                 size_hint_x: 0.6
                 text: "evaluate text"
-                on_press: testfeedbacktogui.text = root.analyzeline(semantic.text)
+                on_press: inputdisplayimage.source = root.returnimage(semantic.text)
+                on_release: output_text.text = root.analyzelinetext(semantic.text)
                     #TODO: right now, having issues displaying output to GUI
                     #text: root.analyzeline(semantic1.text, semantic2.text)
                     #root.calculate(semantic.text)
@@ -113,11 +116,12 @@
             Image:
                 id: historydisplayimage
                 #TODO: THIS IS JUST A PLACEHOLDER - Needs to be filled in with calculated data from Button
-                source:"huelogo.png"
+                source:"emptybox.png"
                 size_hint_x: 0.4
                 allow_stretch: True
 
             Label:
+                id: historydisplaytext
                 text: "insert description of feature"
 
 
@@ -129,10 +133,12 @@
                 text: "back to start Page"
                 on_press: root.manager.current = "start_page"
 
+
             Button:
                 size_hint_x: 0.6
                 text: "Evaluate Browser History"
-                #on_press: root.evaluatehistory(param,param2)
+                on_press: historydisplaytext.text = root.evaluatehistory()
+                on_release: historydisplayimage.source = root.getimage()
 
 <FeedbackPage>:
     name: "feedback_page"

@@ -2,11 +2,11 @@ from bs4 import BeautifulSoup
 import requests
 from textblob import TextBlob
 # Here, we're just importing both Beautiful Soup and the Requests library
-page_link = 'https://medium.com/the-business-of-being-happy-and-healthy/how-i-read-more-books-than-anyone-i-know-aea13b104ec2'
+#page_link = 'https://medium.com/the-business-of-being-happy-and-healthy/how-i-read-more-books-than-anyone-i-know-aea13b104ec2'
 # this is the url that we've already determined is safe and legal to scrape from.
-page_response = requests.get(page_link, timeout=5)
+#page_response = requests.get(page_link, timeout=5)
 # here, we fetch the content from the url, using the requests library
-page_content = BeautifulSoup(page_response.content, "html.parser")
+#page_content = BeautifulSoup(page_response.content, "html.parser")
 #we use the html parser to parse the url content and store it in a variable.
 textContent = []
 data = ''
@@ -49,7 +49,7 @@ for i in range(0, 40):
         subjectivity += opinion.sentiment[1]
         # print(opinion.sentiment)
     except IndexError:
-        break;
+        break
     if(numLines ==0):
         numLines = 1
 print(numLines, polarity, subjectivity, "\naverage polarity " + str(polarity / numLines), "\naverage subjectivity " + str(subjectivity / numLines))
