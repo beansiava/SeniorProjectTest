@@ -122,7 +122,7 @@ class HistoryPage(Screen):
                     sAvg += subjectivity/numLines
                     pCount += 1
 
-
+        TODO: THIS
 
         pol = pAvg
         sub = sAvg
