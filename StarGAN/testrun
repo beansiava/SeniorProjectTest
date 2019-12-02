@@ -1,0 +1,2 @@
+python3 main.py --mode test --dataset RaFD --image_size 128 --c_dim 8 --rafd_image_dir data/custom/input --sample_dir stargan_custom/samples --log_dir stargan_custom/logs --model_save_dir stargan_custom/models --result_dir stargan_custom/results --test_iters 75000
+python3 greyscale.py
