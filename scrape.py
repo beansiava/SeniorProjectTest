@@ -55,16 +55,23 @@ print(numLines, polarity, subjectivity, "\naverage polarity " + str(polarity /
                                                                     numLines), "\naverage subjectivity " + str(subjectivity / numLines))
 # print(page_content.find_all("p"))
 
-polarityClass = int((polarity/numLines+1)*(3.0/2))
-subjectivityClass = int(subjectivity/numLines*5) + 1
-# Edge cases of perfect polarity or subjectivity
-if polarityClass is 3:
-    polarityClass -= 1
-if subjectivityClass is 6:
+sClass = int(subjectivity/numLines*5) + 1
+p = polarity/numLines
+
+if p < -.35:
+    pClass = "angry"
+elif p < 0:
+    pClass = "sad"
+elif p < .35:
+    pClass = "neutral"
+else:
+    pClass = "happy"
+
+# Edge cases of perfect subjectivity
+if sClass is 6:
     subjectivityClass -= 1
-classes = ["happy", "neutral", "sad"]
 img = Image.open("StarGAN/stargan_custom/results/" +
-                 classes[polarityClass] + str(subjectivityClass) + ".jpg")
+                 pClass + str(sClass) + ".jpg")
 img.show()
 
 # TODO: Probably delete all of this, and treat each index of textContent as its own string.  Run through opinion, store, GET AVERAGE.
