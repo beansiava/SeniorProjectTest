@@ -7,6 +7,8 @@ import browserhistory as bh
 import os
 import requests
 from PIL import Image
+import numpy as np
+
 
 class ScreenManagement(ScreenManager):
     pass
@@ -15,58 +17,87 @@ class ScreenManagement(ScreenManager):
 class StartPage(Screen):
     pass
 
-class InputPage(Screen):
-    #TODO: create values within the class to hold the current statement and returnimage
 
+class InputPage(Screen):
+    # TODO: create values within the class to hold the current statement and returnimage
 
     def analyzelinetext(self, semantic):
         opinion = TextBlob(semantic)
-        polarity  = str(opinion.sentiment.polarity)[0:4]
-        if (polarity[0] == '-'): #accounts for the space a negative marker will take in the string.
+        polarity = str(opinion.sentiment.polarity)[0:4]
+        # accounts for the space a negative marker will take in the string.
+        if (polarity[0] == '-'):
             polarity = str(opinion.sentiment.polarity)[0:5]
         subjectivity = str(opinion.sentiment.subjectivity)[0:4]
         statement = "The statement you entered has a polarity score of " + polarity + "\n" \
-        + "and a subjectivity score of " + subjectivity
+            + "and a subjectivity score of " + subjectivity
         return statement
 
     def returnimage(self, semantic):
-        #TODO: call external function for analysis of first line input
-        #TODO: call external function for analysis of second line input
-        #TODO: combine the two and output into GUI
+        # TODO: call external function for analysis of first line input
+        # TODO: call external function for analysis of second line input
+        # TODO: combine the two and output into GUI
         returnphoto = "photoreplace.jpg"
         return returnphoto
 
-#DEFINE GLOBAL VARIABLES FOR USE IN GRABBING THE IMAGE AND TEXT OUTPUT
-sub = ""
-pol =""
-sClass = 0
-p = 0
-class HistoryPage(Screen):
 
+# DEFINE GLOBAL VARIABLES FOR USE IN GRABBING THE IMAGE AND TEXT OUTPUT
+sub = ""
+pol = ""
+
+
+class HistoryPage(Screen):
 
     subjectivity = ""
     polarity = ""
+    global p
+    global sClass
 
     def getimage(self):
-            if p < -.35:
-                pClass = "angry"
-            elif p < 0:
-                pClass = "sad"
-            elif p < .35:
-                pClass = "neutral"
-            else:
-                pClass = "happy"
 
-                # Edge cases of perfect subjectivity
-            if sClass is 6:
-                subjectivityClass -= 1
-            img = "../ImageSearch/" + \
-                             pClass + str(sClass+1) + ".jpg"
+        thresholds = np.loadtxt('thresholds.txt', dtype=float)
+        print(thresholds[0])
 
+        if p < thresholds[0]:
+            pClass = "angry"
+        elif p < thresholds[1]:
+            pClass = "sad"
+        elif p < thresholds[2]:
+            pClass = "neutral"
+        else:
+            pClass = "happy"
 
-            print(pol,sub)
-            return img
+            # Edge cases of perfect subjectivity
+        if sClass is 6:
+            subjectivityClass -= 1
+        img = "../ImageSearch/" + \
+            pClass + str(sClass+1) + ".jpg"
 
+        print(pol, sub)
+        return img
+
+    # Must be ran after total polarity is calculated
+    def tooSad(self):
+        thresholds = np.loadtxt('thresholds.txt', dtype=float)
+        if p < thresholds[0]:
+            thresholds[0] -= .01
+        elif p < thresholds[1]:
+            thresholds[1] -= .01
+        elif p < thresholds[2]:
+            thresholds[2] -= .01
+        np.savetxt('thresholds.txt', thresholds)
+
+    def tooHappy(self):
+        thresholds = np.loadtxt('thresholds.txt', dtype=float)
+        if p < thresholds[0]:
+            return  # I mean it is as sad as it gets
+        elif p < thresholds[1]:
+            thresholds[0] += .01
+        elif p < thresholds[2]:
+            thresholds[1] += .01
+        else:
+            thresholds[2] += .01
+
+        np.savetxt('thresholds.txt', thresholds)
 
     def evaluatehistory(self):
         textContent = []
@@ -116,29 +147,34 @@ class HistoryPage(Screen):
                 print("no usable data was found in the file")
             else:
                 print(numLines, polarity, subjectivity, "\naverage polarity " + str(polarity /
-                                numLines), "\naverage subjectivity " + str(subjectivity / numLines))
+                                                                                    numLines), "\naverage subjectivity " + str(subjectivity / numLines))
                 if polarity is not 0:
                     pAvg += polarity/numLines
                     sAvg += subjectivity/numLines
                     pCount += 1
 
-        TODO: THIS
-
+        # global pol
         pol = pAvg
+        # global sub
         sub = sAvg
+
+        global sClass
+        global p
         sClass = int((sAvg/pCount)*5) + 1
         p = pAvg/pCount
+        print("P is now")
+        print(p)
         #self.subjectivity = subjectivity
         #self.polarity = polarity
-        statement =  "Your browser history has an average polarity: " + str(pol) + "\n" \
-        + "and a subjectivity of " + str(sub)
+        statement = "Your browser history has an average polarity: " + str(pol) + "\n" \
+            + "and a subjectivity of " + str(sub)
         return statement
         # print(page_content.find_all("p"))
 
 
-
 class FeedbackPage(Screen):
     pass
+
 
 class TestApp(App):
     title = "Welcome to Hue"
