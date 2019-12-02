@@ -41,6 +41,11 @@ def split(source):
     crop_rectangle = (896, 0, 1024, 128)
     cropped_im = im.crop(crop_rectangle)
     cropped_im.save(source[:23] + "sad" + source[23] + ".jpg", "JPEG")
+
+    # Angry
+    crop_rectangle = (128, 0, 256, 128)
+    cropped_im = im.crop(crop_rectangle)
+    cropped_im.save(source[:23] + "angry" + source[23] + ".jpg", "JPEG")
     return
 
 
