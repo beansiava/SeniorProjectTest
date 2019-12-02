@@ -6,6 +6,7 @@ from textblob import TextBlob
 import browserhistory as bh
 import os
 import requests
+from PIL import Image
 
 class ScreenManagement(ScreenManager):
     pass
@@ -38,6 +39,8 @@ class InputPage(Screen):
 #DEFINE GLOBAL VARIABLES FOR USE IN GRABBING THE IMAGE AND TEXT OUTPUT
 sub = ""
 pol =""
+sClass = 0
+p = 0
 class HistoryPage(Screen):
 
 
@@ -45,8 +48,24 @@ class HistoryPage(Screen):
     polarity = ""
 
     def getimage(self):
-            print(pol, sub)
-            return "photoreplace.jpg"
+            if p < -.35:
+                pClass = "angry"
+            elif p < 0:
+                pClass = "sad"
+            elif p < .35:
+                pClass = "neutral"
+            else:
+                pClass = "happy"
+
+                # Edge cases of perfect subjectivity
+            if sClass is 6:
+                subjectivityClass -= 1
+            img = "../ImageSearch/" + \
+                             pClass + str(sClass+1) + ".jpg"
+
+
+            print(pol,sub)
+            return img
 
 
     def evaluatehistory(self):
@@ -63,51 +82,56 @@ class HistoryPage(Screen):
             os.system("taskkill /im chrome.exe /f")
             for i in range(5):
                 print("--------------------------------------------------")
-                print("Program begins now")
-                print("--------------------------------------------------")
+            print("Program begins now")
+            print("--------------------------------------------------")
         except:
             print("chrome was already closed")
         dict_obj = bh.get_browserhistory()
         dict_obj.keys()
-        page_link = dict_obj['chrome'][0][0]
-        print(page_link)
-        page_response = requests.get(page_link, timeout=5)
-        page_content = BeautifulSoup(page_response.content, "html.parser")
+        pAvg = 0
+        sAvg = 0
+        pCount = 0
+        for i in range(10):
+            page_link = dict_obj['chrome'][i][0]
+            print(page_link)
+            page_response = requests.get(page_link, timeout=5)
+            page_content = BeautifulSoup(page_response.content, "html.parser")
 
-        #TODO (optional for now): find out how to stop when there are no longer <p> tags (right now, just runs through and breaks if Index Error
-        for i in range(0, 40):
-            try:
-                paragraphs = page_content.find_all("p")[i].text
-                textContent.append(paragraphs)
-                #dependent on if we can list all p tags-TODO: will probably move this to it's own loop so we can first load up with p tags
-                opinion = TextBlob(textContent[i])
-                numLines += 1
-                polarity += opinion.sentiment[0]
-                subjectivity += opinion.sentiment[1]
-                # print(opinion.sentiment)
-            except IndexError:
-                break
-            if(numLines ==0):
-                numLines = 1
-        subjectivity = subjectivity/numLines
-        polarity = polarity/numLines
-        #print(numLines, polarity, subjectivity, "\naverage polarity " + str(polarity / numLines), "\naverage subjectivity " + str(subjectivity / numLines))
-        subjectivity = str(subjectivity)[0:4]
-        polarity = str(polarity)[0:4]
-        if(polarity[0] == '-'):
-            polarity = str(opinion.sentiment.polarity)[0:5]
-
-        sub = subjectivity
-        pol = polarity
-
-
-        statement =  "Your browser history has an average polarity: " + pol + "\n" \
-        + "and a subjectivity of " + sub
-
+            # TODO (optional for now): find out how to stop when there are no longer <p> tags (right now, just runs through and breaks if Index Error
+            for i in range(0, 40):
+                try:
+                    paragraphs = page_content.find_all("p")[i].text
+                    textContent.append(paragraphs)
+                    # dependent on if we can list all p tags-TODO: will probably move this to it's own loop so we can first load up with p tags
+                    opinion = TextBlob(textContent[i])
+                    numLines += 1
+                    polarity += opinion.sentiment[0]
+                    subjectivity += opinion.sentiment[1]
+                    # print(opinion.sentiment)
+                except IndexError:
+                    break
+                if(numLines == 0):
+                    numLines = 1
+            if (numLines == 0):
+                print("no usable data was found in the file")
+            else:
+                print(numLines, polarity, subjectivity, "\naverage polarity " + str(polarity /
+                                numLines), "\naverage subjectivity " + str(subjectivity / numLines))
+                if polarity is not 0:
+                    pAvg += polarity/numLines
+                    sAvg += subjectivity/numLines
+                    pCount += 1
 
 
+
+        pol = pAvg
+        sub = sAvg
+        sClass = int((sAvg/pCount)*5) + 1
+        p = pAvg/pCount
         #self.subjectivity = subjectivity
         #self.polarity = polarity
+        statement =  "Your browser history has an average polarity: " + str(pol) + "\n" \
+        + "and a subjectivity of " + str(sub)
         return statement
         # print(page_content.find_all("p"))
 
