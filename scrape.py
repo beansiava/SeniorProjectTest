@@ -30,33 +30,44 @@ except:
     print("chrome was already closed")
 dict_obj = bh.get_browserhistory()
 dict_obj.keys()
-page_link = dict_obj['chrome'][0][0]
-print(page_link)
-page_response = requests.get(page_link, timeout=5)
-page_content = BeautifulSoup(page_response.content, "html.parser")
+pAvg = 0
+sAvg = 0
+pCount = 0
+for i in range(10):
+    page_link = dict_obj['chrome'][i][0]
+    print(page_link)
+    page_response = requests.get(page_link, timeout=5)
+    page_content = BeautifulSoup(page_response.content, "html.parser")
 
+    # TODO (optional for now): find out how to stop when there are no longer <p> tags (right now, just runs through and breaks if Index Error
+    for i in range(0, 40):
+        try:
+            paragraphs = page_content.find_all("p")[i].text
+            textContent.append(paragraphs)
+            # dependent on if we can list all p tags-TODO: will probably move this to it's own loop so we can first load up with p tags
+            opinion = TextBlob(textContent[i])
+            numLines += 1
+            polarity += opinion.sentiment[0]
+            subjectivity += opinion.sentiment[1]
+            # print(opinion.sentiment)
+        except IndexError:
+            break
+        if(numLines == 0):
+            numLines = 1
+    if (numLines == 0):
+        print("no usable data was found in the file")
+    else:
+        print(numLines, polarity, subjectivity, "\naverage polarity " + str(polarity /
+                                                                            numLines), "\naverage subjectivity " + str(subjectivity / numLines))
+        if polarity is not 0:
+            pAvg += polarity/numLines
+            sAvg += subjectivity/numLines
+            pCount += 1
 
-# TODO (optional for now): find out how to stop when there are no longer <p> tags (right now, just runs through and breaks if Index Error
-for i in range(0, 40):
-    try:
-        paragraphs = page_content.find_all("p")[i].text
-        textContent.append(paragraphs)
-        # dependent on if we can list all p tags-TODO: will probably move this to it's own loop so we can first load up with p tags
-        opinion = TextBlob(textContent[i])
-        numLines += 1
-        polarity += opinion.sentiment[0]
-        subjectivity += opinion.sentiment[1]
-        # print(opinion.sentiment)
-    except IndexError:
-        break
-    if(numLines == 0):
-        numLines = 1
-print(numLines, polarity, subjectivity, "\naverage polarity " + str(polarity /
-                                                                    numLines), "\naverage subjectivity " + str(subjectivity / numLines))
-# print(page_content.find_all("p"))
+print(page_content.find_all("p"))
 
-sClass = int(subjectivity/numLines*5) + 1
-p = polarity/numLines
+sClass = int((sAvg/pCount)*5) + 1
+p = pAvg/pCount
 
 if p < -.35:
     pClass = "angry"
@@ -67,7 +78,7 @@ elif p < .35:
 else:
     pClass = "happy"
 
-# Edge cases of perfect subjectivity
+    # Edge cases of perfect subjectivity
 if sClass is 6:
     subjectivityClass -= 1
 img = Image.open("StarGAN/stargan_custom/results/" +
