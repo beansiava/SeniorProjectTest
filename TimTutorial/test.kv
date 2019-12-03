@@ -68,6 +68,25 @@
 
 
         BoxLayout:
+            size_hint_y: 0.045
+
+            Label:
+                size_hint_x: 0.6
+                text: ""
+
+            Button:
+                size_hint_x: 0.2
+                text: "It's more negative \n than this"
+                on_press: root.tooHappy()
+                on_release: historydisplaytext = "thank you for your input"
+
+            Button:
+                size_hint_x: 0.2
+                text: "It's more positive \n than this"
+                on_press: root.tooSad()
+                on_release: historydisplaytext = "thank you for your input"
+
+        BoxLayout:
             bcolor: 1,1,1,1
             size_hint_y: 0.15
             Label:
@@ -77,6 +96,9 @@
                 #IT WORKS!!!! SEE HOW THE 'id' can influence the ability to edit values later
                 id: semantic
                 text: ''
+
+
+
 
         # Calculate and show page #2
         BoxLayout:
@@ -124,6 +146,24 @@
                 id: historydisplaytext
                 text: "insert description of feature"
 
+        BoxLayout:
+            size_hint_y: 0.1
+
+            Label:
+                size_hint_x: 0.6
+                text: ""
+
+            Button:
+                size_hint_x: 0.2
+                text: "I think it's more \nnegative than this"
+                on_press: root.tooHappy()
+                on_release: historydisplaytext = "thank you for your input"
+
+            Button:
+                size_hint_x: 0.2
+                text: "I think it's more \n positive than this"
+                on_press: root.tooSad()
+                on_release: historydisplaytext = "thank you for your input"
 
         # TODO: Calculate values from history
         BoxLayout:
@@ -149,5 +189,6 @@
         # Show page #1
         BoxLayout:
             Button:
-                text: "Back to start page"
+                text: "For now, if you'd like to provide feedback, \nyou can do so after entering text or checking your browser history.\n(click anywhere on this page to go back)"
+
                 on_press: root.manager.current = "start_page"
