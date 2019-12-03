@@ -30,13 +30,42 @@ class InputPage(Screen):
         subjectivity = str(opinion.sentiment.subjectivity)[0:4]
         statement = "The statement you entered has a polarity score of " + polarity + "\n" \
             + "and a subjectivity score of " + subjectivity
+        global subj
+        global pola
+        subj = subjectivity
+        pola = polarity
         return statement
 
     def returnimage(self, semantic):
         # TODO: call external function for analysis of first line input
         # TODO: call external function for analysis of second line input
         # TODO: combine the two and output into GUI
+        global pola #TODO: FIX THE ISSUE WITH THIS GLOBAL VARIABLE - getting "not defined" error
+        global subj
+        thresholds = np.loadtxt('thresholds.txt', dtype=float)
+        print(thresholds[0])
+
+        if pola < thresholds[0]:
+            pClass = "angry"
+        elif pola < thresholds[1]:
+            pClass = "sad"
+        elif pola < thresholds[2]:
+            pClass = "neutral"
+        else:
+            pClass = "happy"
+
+            # Edge cases of perfect subjectivity
+        if subj is 6:
+            subj -= 1
+        img = "..StarGAN/stargan_custom/results/ImageSearch/" + \
+            pClass + str(subj+1) + ".jpg"
+
+        print(pol, sub)
+
+
         returnphoto = "photoreplace.jpg"
+
+        #pola, subj will fetch photo
         return returnphoto
 
 
@@ -68,8 +97,8 @@ class HistoryPage(Screen):
 
             # Edge cases of perfect subjectivity
         if sClass is 6:
-            subjectivityClass -= 1
-        img = "../ImageSearch/" + \
+            sClass -= 1
+        img = "..StarGAN/stargan_custom/results/ImageSearch/" + \
             pClass + str(sClass+1) + ".jpg"
 
         print(pol, sub)
