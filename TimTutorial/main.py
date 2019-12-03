@@ -40,7 +40,7 @@ class InputPage(Screen):
         # TODO: call external function for analysis of first line input
         # TODO: call external function for analysis of second line input
         # TODO: combine the two and output into GUI
-        global pola #TODO: FIX THE ISSUE WITH THIS GLOBAL VARIABLE - getting "not defined" error
+        global pola  # TODO: FIX THE ISSUE WITH THIS GLOBAL VARIABLE - getting "not defined" error
         global subj
         thresholds = np.loadtxt('thresholds.txt', dtype=float)
         print(thresholds[0])
@@ -57,15 +57,14 @@ class InputPage(Screen):
             # Edge cases of perfect subjectivity
         if subj is 6:
             subj -= 1
-        img = "..StarGAN/stargan_custom/results/ImageSearch/" + \
+        img = "../StarGAN/stargan_custom/results/" + \
             pClass + str(subj+1) + ".jpg"
 
         print(pol, sub)
 
-
         returnphoto = "photoreplace.jpg"
 
-        #pola, subj will fetch photo
+        # pola, subj will fetch photo
         return returnphoto
 
 
@@ -86,6 +85,9 @@ class HistoryPage(Screen):
         thresholds = np.loadtxt('thresholds.txt', dtype=float)
         print(thresholds[0])
 
+        global p
+        global sClasss
+
         if p < thresholds[0]:
             pClass = "angry"
         elif p < thresholds[1]:
@@ -95,11 +97,8 @@ class HistoryPage(Screen):
         else:
             pClass = "happy"
 
-            # Edge cases of perfect subjectivity
-        if sClass is 6:
-            sClass -= 1
-        img = "..StarGAN/stargan_custom/results/ImageSearch/" + \
-            pClass + str(sClass+1) + ".jpg"
+        img = "../StarGAN/stargan_custom/results/" + \
+            pClass + str(sClass) + ".jpg"
 
         print(pol, sub)
         return img
@@ -189,7 +188,10 @@ class HistoryPage(Screen):
 
         global sClass
         global p
-        sClass = int((sAvg/pCount)*5) + 1
+        sClass = int((sAvg/pCount)*5)
+        if sClass is 5:
+            sClass -= 1
+        sClass += 1
         p = pAvg/pCount
         print("P is now")
         print(p)
