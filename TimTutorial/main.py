@@ -48,10 +48,6 @@ class InputPage(Screen):
         elif pola < thresholds[2]:
             thresholds[2] -= .01
 
-        print('making more sad')
-        print(thresholds[0])
-        print(thresholds[1])
-        print(thresholds[2])
         # test_thresholds = thresholds[0] + "\n" + \
         #     thresholds[1] + "\n" + thresholds[2]
         np.savetxt('TimTutorial/thresholds.txt', thresholds)
@@ -68,10 +64,6 @@ class InputPage(Screen):
         else:
             thresholds[2] += .01
 
-        print('making more happy')
-        print(thresholds[0])
-        print(thresholds[1])
-        print(thresholds[2])
         np.savetxt('TimTutorial/thresholds.txt', thresholds)
 
     def returnimage(self, semantic):
@@ -83,7 +75,6 @@ class InputPage(Screen):
         thresholds = np.loadtxt('TimTutorial/thresholds.txt', dtype=float)
         print(thresholds[0])
 
-        print('something')
         print(type(pola))
         pola = float(pola)
         print('subjectivity is:')
