@@ -112,8 +112,8 @@
                 id: testfeedbacktogui
                 size_hint_x: 0.6
                 text: "evaluate text"
-                on_press: inputdisplayimage.source = root.returnimage(semantic.text)
-                on_release: output_text.text = root.analyzelinetext(semantic.text)
+                on_press: output_text.text = root.analyzelinetext(semantic.text)
+                on_release: inputdisplayimage.source = root.returnimage(semantic.text)
                     #TODO: right now, having issues displaying output to GUI
                     #text: root.analyzeline(semantic1.text, semantic2.text)
                     #root.calculate(semantic.text)

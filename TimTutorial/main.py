@@ -45,6 +45,18 @@ class InputPage(Screen):
         thresholds = np.loadtxt('thresholds.txt', dtype=float)
         print(thresholds[0])
 
+        print('something')
+        print(type(pola))
+        pola = float(pola)
+        print('subjectivity is:')
+        print(type(subj))
+        print(subj)
+
+        sClass = int(float(subj)*5)
+        if sClass is 5:
+            sClass -= 1
+        sClass += 1
+
         if pola < thresholds[0]:
             pClass = "angry"
         elif pola < thresholds[1]:
@@ -55,17 +67,15 @@ class InputPage(Screen):
             pClass = "happy"
 
             # Edge cases of perfect subjectivity
-        if subj is 6:
-            subj -= 1
         img = "../StarGAN/stargan_custom/results/" + \
-            pClass + str(subj+1) + ".jpg"
+            pClass + \
+            str(sClass) + \
+            ".jpg"
 
         print(pol, sub)
 
-        returnphoto = "photoreplace.jpg"
-
         # pola, subj will fetch photo
-        return returnphoto
+        return img
 
 
 # DEFINE GLOBAL VARIABLES FOR USE IN GRABBING THE IMAGE AND TEXT OUTPUT
