@@ -36,6 +36,32 @@ class InputPage(Screen):
         pola = polarity
         return statement
 
+    def tooSad(self):
+        thresholds = np.loadtxt('thresholds.txt', dtype=float)
+
+        if not pola:
+            return
+        if pola < thresholds[0]:
+            thresholds[0] -= .01
+        elif pola < thresholds[1]:
+            thresholds[1] -= .01
+        elif pola < thresholds[2]:
+            thresholds[2] -= .01
+        np.savetxt('thresholds.txt', thresholds)
+
+    def tooHappy(self):
+        thresholds = np.loadtxt('thresholds.txt', dtype=float)
+        if pola < thresholds[0]:
+            return  # I mean it is as sad as it gets
+        elif pola < thresholds[1]:
+            thresholds[0] += .01
+        elif pola < thresholds[2]:
+            thresholds[1] += .01
+        else:
+            thresholds[2] += .01
+
+        np.savetxt('thresholds.txt', thresholds)
+
     def returnimage(self, semantic):
         # TODO: call external function for analysis of first line input
         # TODO: call external function for analysis of second line input

@@ -78,13 +78,13 @@
                 size_hint_x: 0.2
                 text: "It's more negative \n than this"
                 on_press: root.tooHappy()
-                on_release: historydisplaytext = "thank you for your input"
+                on_release: output_text.text = "thank you for your input"
 
             Button:
                 size_hint_x: 0.2
                 text: "It's more positive \n than this"
                 on_press: root.tooSad()
-                on_release: historydisplaytext = "thank you for your input"
+                on_release: output_text.text = "thank you for your input"
 
         BoxLayout:
             bcolor: 1,1,1,1
@@ -157,13 +157,13 @@
                 size_hint_x: 0.2
                 text: "I think it's more \nnegative than this"
                 on_press: root.tooHappy()
-                on_release: historydisplaytext = "thank you for your input"
+                on_release: historydisplaytext.text = "thank you for your input"
 
             Button:
                 size_hint_x: 0.2
                 text: "I think it's more \n positive than this"
                 on_press: root.tooSad()
-                on_release: historydisplaytext = "thank you for your input"
+                on_release: historydisplaytext.text = "thank you for your input"
 
         # TODO: Calculate values from history
         BoxLayout:
