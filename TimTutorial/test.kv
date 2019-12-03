@@ -75,12 +75,14 @@
                 text: ""
 
             Button:
+                
                 size_hint_x: 0.2
                 text: "It's more negative \n than this"
                 on_press: root.tooHappy()
                 on_release: output_text.text = "thank you for your input"
 
             Button:
+                #id: threshold
                 size_hint_x: 0.2
                 text: "It's more positive \n than this"
                 on_press: root.tooSad()

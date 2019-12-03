@@ -18,8 +18,8 @@ def calculate(source, step):
             gVal = int((final - g)/(5.0 - step) + g)
             bVal = int((final - b)/(5.0 - step) + b)
             m[x, y] = rVal, gVal, bVal
-    pre = source[:23]
-    post = source[24:]
+    pre = source[:31]
+    post = source[32:]
     n.save(pre + str(step+1) + post, "JPEG")
 
 
@@ -30,28 +30,28 @@ def split(source):
     # Happy
     crop_rectangle = (640, 0, 768, 128)
     cropped_im = im.crop(crop_rectangle)
-    cropped_im.save(source[:23] + "happy" + source[23] + ".jpg", "JPEG")
+    cropped_im.save(source[:31] + "happy" + source[31] + ".jpg", "JPEG")
 
     # Neutral
     crop_rectangle = (768, 0, 896, 128)
     cropped_im = im.crop(crop_rectangle)
-    cropped_im.save(source[:23] + "neutral" + source[23] + ".jpg", "JPEG")
+    cropped_im.save(source[:31] + "neutral" + source[31] + ".jpg", "JPEG")
 
     # Sad
     crop_rectangle = (896, 0, 1024, 128)
     cropped_im = im.crop(crop_rectangle)
-    cropped_im.save(source[:23] + "sad" + source[23] + ".jpg", "JPEG")
+    cropped_im.save(source[:31] + "sad" + source[31] + ".jpg", "JPEG")
 
     # Angry
     crop_rectangle = (128, 0, 256, 128)
     cropped_im = im.crop(crop_rectangle)
-    cropped_im.save(source[:23] + "angry" + source[23] + ".jpg", "JPEG")
+    cropped_im.save(source[:31] + "angry" + source[31] + ".jpg", "JPEG")
     return
 
 
 if __name__ == '__main__':
-    source = 'stargan_custom/results/1-images.jpg'
+    source = 'StarGAN/stargan_custom/results/1-images.jpg'
     for x in range(4):
         calculate(source, x+1)
     for x in range(5):
-        split(source[:23] + str(x+1) + source[24:])
+        split(source[:31] + str(x+1) + source[32:])

@@ -23,10 +23,10 @@ class InputPage(Screen):
 
     def analyzelinetext(self, semantic):
         opinion = TextBlob(semantic)
-        polarity = str(opinion.sentiment.polarity)[0:4]
+        polarity = str(opinion.sentiment.polarity)
         # accounts for the space a negative marker will take in the string.
         if (polarity[0] == '-'):
-            polarity = str(opinion.sentiment.polarity)[0:5]
+            polarity = polarity[0:5]
         subjectivity = str(opinion.sentiment.subjectivity)[0:4]
         statement = "The statement you entered has a polarity score of " + polarity + "\n" \
             + "and a subjectivity score of " + subjectivity
@@ -37,7 +37,7 @@ class InputPage(Screen):
         return statement
 
     def tooSad(self):
-        thresholds = np.loadtxt('thresholds.txt', dtype=float)
+        thresholds = np.loadtxt('TimTutorial/thresholds.txt', dtype=float)
 
         if not pola:
             return
@@ -47,10 +47,18 @@ class InputPage(Screen):
             thresholds[1] -= .01
         elif pola < thresholds[2]:
             thresholds[2] -= .01
-        np.savetxt('thresholds.txt', thresholds)
+
+        print('making more sad')
+        print(thresholds[0])
+        print(thresholds[1])
+        print(thresholds[2])
+        # test_thresholds = thresholds[0] + "\n" + \
+        #     thresholds[1] + "\n" + thresholds[2]
+        np.savetxt('TimTutorial/thresholds.txt', thresholds)
+        # return test_thresholds
 
     def tooHappy(self):
-        thresholds = np.loadtxt('thresholds.txt', dtype=float)
+        thresholds = np.loadtxt('TimTutorial/thresholds.txt', dtype=float)
         if pola < thresholds[0]:
             return  # I mean it is as sad as it gets
         elif pola < thresholds[1]:
@@ -60,7 +68,11 @@ class InputPage(Screen):
         else:
             thresholds[2] += .01
 
-        np.savetxt('thresholds.txt', thresholds)
+        print('making more happy')
+        print(thresholds[0])
+        print(thresholds[1])
+        print(thresholds[2])
+        np.savetxt('TimTutorial/thresholds.txt', thresholds)
 
     def returnimage(self, semantic):
         # TODO: call external function for analysis of first line input
@@ -68,7 +80,7 @@ class InputPage(Screen):
         # TODO: combine the two and output into GUI
         global pola  # TODO: FIX THE ISSUE WITH THIS GLOBAL VARIABLE - getting "not defined" error
         global subj
-        thresholds = np.loadtxt('thresholds.txt', dtype=float)
+        thresholds = np.loadtxt('TimTutorial/thresholds.txt', dtype=float)
         print(thresholds[0])
 
         print('something')
@@ -93,7 +105,7 @@ class InputPage(Screen):
             pClass = "happy"
 
             # Edge cases of perfect subjectivity
-        img = "../StarGAN/stargan_custom/results/" + \
+        img = "StarGAN/stargan_custom/results/" + \
             pClass + \
             str(sClass) + \
             ".jpg"
@@ -118,7 +130,7 @@ class HistoryPage(Screen):
 
     def getimage(self):
 
-        thresholds = np.loadtxt('thresholds.txt', dtype=float)
+        thresholds = np.loadtxt('TimTutorial/thresholds.txt', dtype=float)
         print(thresholds[0])
 
         global p
@@ -133,7 +145,7 @@ class HistoryPage(Screen):
         else:
             pClass = "happy"
 
-        img = "../StarGAN/stargan_custom/results/" + \
+        img = "StarGAN/stargan_custom/results/" + \
             pClass + str(sClass) + ".jpg"
 
         print(pol, sub)
@@ -141,17 +153,17 @@ class HistoryPage(Screen):
 
     # Must be ran after total polarity is calculated
     def tooSad(self):
-        thresholds = np.loadtxt('thresholds.txt', dtype=float)
+        thresholds = np.loadtxt('TimTutorial/thresholds.txt', dtype=float)
         if p < thresholds[0]:
             thresholds[0] -= .01
         elif p < thresholds[1]:
             thresholds[1] -= .01
         elif p < thresholds[2]:
             thresholds[2] -= .01
-        np.savetxt('thresholds.txt', thresholds)
+        np.savetxt('TimTutorial/thresholds.txt', thresholds)
 
     def tooHappy(self):
-        thresholds = np.loadtxt('thresholds.txt', dtype=float)
+        thresholds = np.loadtxt('TimTutorial/thresholds.txt', dtype=float)
         if p < thresholds[0]:
             return  # I mean it is as sad as it gets
         elif p < thresholds[1]:
@@ -161,7 +173,7 @@ class HistoryPage(Screen):
         else:
             thresholds[2] += .01
 
-        np.savetxt('thresholds.txt', thresholds)
+        np.savetxt('TimTutorial/thresholds.txt', thresholds)
 
     def evaluatehistory(self):
         textContent = []
@@ -233,8 +245,8 @@ class HistoryPage(Screen):
         print(p)
         #self.subjectivity = subjectivity
         #self.polarity = polarity
-        statement = "Your browser history has an average polarity: " + str(pol) + "\n" \
-            + "and a subjectivity of " + str(sub)
+        statement = "Your browser history has an average polarity: " + str(p) + "\n" \
+            + "and a subjectivity of " + str(sAvg/pCount)
         return statement
         # print(page_content.find_all("p"))
 
